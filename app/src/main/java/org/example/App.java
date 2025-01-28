@@ -1,7 +1,56 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class App {
   public static void main(String[] args) {
-    // Test your Factorizer class using a driver program here!
+    Factorizer factorizer = new Factorizer();
+
+    System.out.println("Welcome to my factorize program");
+    System.out.println();
+
+    int num = Integer.MIN_VALUE;
+    Scanner scanner = new Scanner(System.in);
+    boolean repeat = true;
+    while(repeat) {
+      System.out.print("Input a number to check if it is prime: ");
+      String input = scanner.nextLine().trim();
+
+      if(input.isEmpty()) {
+        System.out.println("Please enter a value");
+      } else try {
+        num = Integer.parseInt(input);
+        if(num < 0) {
+          System.out.println("Please input a positive value");
+          num = Integer.MIN_VALUE;
+        } else {
+          repeat = false;
+        }
+      } catch(Exception e) {
+        System.out.println("Please input a integer value");
+        num = Integer.MIN_VALUE;
+      }
+
+      System.out.println();
+    }
+
+    boolean isPrime = factorizer.isPrime(num);
+    if(isPrime) {
+      System.out.println("Your number is prime");
+    } else {
+      System.out.println("Your number is not prime");
+      System.out.println("Your number has the following prime factors");
+      ArrayList<Integer> primeFactors = factorizer.primeFactors(num);
+      for(int i = 0; i < primeFactors.size(); ++i) {
+        if(i != 0) {
+          System.out.print(", ");
+        }
+        System.out.print(primeFactors.get(i));
+      }
+    }
+
+    System.out.println();
+    System.out.println("Exiting...");
   }
 }
