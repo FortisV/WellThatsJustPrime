@@ -40,13 +40,15 @@ public class App {
       System.out.println("Your number is prime");
     } else {
       System.out.println("Your number is not prime");
-      System.out.println("Your number has the following prime factors");
       ArrayList<Integer> primeFactors = factorizer.primeFactors(num);
-      for(int i = 0; i < primeFactors.size(); ++i) {
-        if(i != 0) {
-          System.out.print(", ");
+      if(primeFactors.isEmpty()) {
+        System.out.println("Your number has no prime factors");
+      } else {
+        System.out.println("Your number has the following prime factors");
+        System.out.print(primeFactors.getFirst());
+        for (int i = 0; i < primeFactors.size(); ++i) {
+          System.out.print(", " + primeFactors.get(i));
         }
-        System.out.print(primeFactors.get(i));
       }
     }
 
