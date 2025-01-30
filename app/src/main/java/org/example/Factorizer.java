@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 public class Factorizer {
   static private ArrayList<Integer> primes = new ArrayList<>();
+  static {
+    primes.add(2);
+  }
 
   public int getPrime(int i) {
     return primes.get(i);
@@ -21,36 +24,25 @@ public class Factorizer {
   }
 
   public boolean isPrime(int n) {
+    if(n <= 1) {
+      return false;
+    }
+
     int i = 0;
-    int currPrime;
-    while(true) {
-      currPrime = getGenerate(i);
-      if(n == currPrime) {
-        return true;
-      } else if(n < currPrime) {
+    while(getGenerate(i) <= Math.sqrt(n)) {
+      if(n % primes.get(i) == 0) {
         return false;
       }
-      ++i;
+      i++;
     }
+    return true;
   }
 
-  public void generateNextPrime() {
-    int n;
-    if(primes.isEmpty()) {
-      n = 1;
-    } else {
-      n = primes.getLast();
+  private void generateNextPrime() {
+    int n = primes.getLast() + 1;
+    while(!isPrime(n)) {
+      n++;
     }
-    boolean prime;
-    do {
-      ++n;
-      prime = true;
-      for(int i = 0; i < primes.size() && prime; ++i) {
-        if(n % primes.get(i) == 0) {
-          prime = false;
-        }
-      }
-    } while(!prime);
     primes.add(n);
   }
 
@@ -66,21 +58,16 @@ public class Factorizer {
     ArrayList<Integer> factors = new ArrayList<>();
 
     int i = 0;
-    int currPrime = getGenerate(i);
-    boolean factored = false;
-    while(currPrime <= n) {
-      if(n % currPrime == 0) {
-        n /= currPrime;
-        if(n == 1 && !factored) {
-          return factors;
-        } else {
-          factored = true;
-        }
-        factors.add(currPrime);
+    while(getGenerate(i) <= Math.sqrt(n)) {
+      if(n % primes.get(i) == 0) {
+        n /= primes.get(i);
+        factors.add(primes.get(i));
       } else {
-        ++i;
+        i++;
       }
-      currPrime = getGenerate(i);
+    }
+    if(!factors.isEmpty()) {
+      factors.add(n);
     }
 
     return factors;
